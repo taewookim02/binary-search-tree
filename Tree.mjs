@@ -16,9 +16,11 @@ export class Tree {
     node.left = this.buildTree(array, start, mid - 1);
     node.right = this.buildTree(array, mid + 1, end);
 
-    this.root = node;
-
     return node;
+  }
+
+  constructTree(array, start, end) {
+    this.root = this.buildTree(array, start, end);
   }
 
   prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -45,16 +47,34 @@ export class Tree {
     this.preOrder(node.left);
     this.preOrder(node.right);
   }
+
+  inOrder(node) {
+    if (node == null) return;
+
+    this.inOrder(node.left);
+    console.log(node.data + " ");
+    this.inOrder(node.right);
+  }
+
+  postOrder(node) {
+    if (node == null) return;
+    this.postOrder(node.left);
+    this.postOrder(node.right);
+    console.log(node.data + " ");
+  }
+
+  insert(value) {}
 }
-const arr = [23, 235, 1, 2, 3, 4, 7, 9, 0, 234, 32, 18, 23];
+const arr = [235, 1, 2, 3, 4, 7, 9, 0, 234, 32, 18, 23];
 
 const ms = new MergeSort();
 ms.sort(arr, 0, arr.length - 1);
-console.log(arr);
 
 const tree = new Tree();
-const bst = tree.buildTree(arr, 0, arr.length - 1);
-// tree.prettyPrint(bst);
-tree.prettyPrint(bst);
-tree.preOrder(bst);
-// console.log("BSTBSTBST:", bst);
+
+tree.constructTree(arr, 0, arr.length - 1);
+console.log(tree);
+
+tree.prettyPrint(tree.root);
+
+tree.postOrder(tree.root);
