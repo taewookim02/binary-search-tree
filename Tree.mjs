@@ -98,6 +98,49 @@ export class Tree {
       return node;
     }
   }
+
+  delete(input) {
+    this.root = this.deleteNode(this.root, input);
+  }
+
+  deleteNode(node, input) {
+    if (node === null) {
+      // base case
+      return null;
+    }
+
+    if (input < node.data) {
+      // if the input to be deleted is smaller than the node's data, then it lies in the left subtree
+      node.left = this.deleteNode(node.left, input);
+    } else if (input > node.data) {
+      // if the input to be deleted is greater than the node's data, then it lies in the right subtree
+      node.right = this.deleteNode(node.right, input);
+    } else {
+      // node with only one child or no child
+      if (node.left === null) {
+        return node.right;
+      } else if (node.right === null) {
+        return node.left;
+      }
+
+      // node with 2 children: get the inorder successor (smallest in the right subtree)
+      node.data = this.minValue(node.right);
+
+      // delete the inorder successor
+      node.right = this.deleteNode(node.right, node.data);
+    }
+
+    return node;
+  }
+
+  minValue(node) {
+    let minv = node.data;
+    while (node.left !== null) {
+      minv = node.left.data;
+      node = node.left;
+    }
+    return minv;
+  }
 }
 const arr = [235, 1, 2, 3, 4, 7, 9, 0, 234, 32, 18, 23];
 
@@ -114,6 +157,7 @@ tree.insert(3);
 tree.insert(4);
 tree.insert(5);
 
-const nodeFound = tree.find(5);
-console.log(nodeFound); // node
+// const nodeDelete = tree.delete(1);
+tree.delete(1);
+console.log(tree.root);
 tree.prettyPrint(tree.root);
