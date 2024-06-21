@@ -3,7 +3,6 @@ import { Node } from "./Node.mjs";
 
 export class Tree {
   constructor(array = [], root = null) {
-    this.array = array;
     this.root = root;
   }
 
@@ -63,7 +62,21 @@ export class Tree {
     console.log(node.data + " ");
   }
 
-  insert(value) {}
+  insert(input) {
+    this.root = this.insertNode(this.root, input);
+  }
+
+  insertNode(node, input) {
+    if (node === null) return new Node(input);
+
+    if (input < node.data) {
+      node.left = this.insertNode(node.left, input);
+    } else if (input > node.data) {
+      node.right = this.insertNode(node.right, input);
+    }
+
+    return node;
+  }
 }
 const arr = [235, 1, 2, 3, 4, 7, 9, 0, 234, 32, 18, 23];
 
@@ -71,10 +84,13 @@ const ms = new MergeSort();
 ms.sort(arr, 0, arr.length - 1);
 
 const tree = new Tree();
-
 tree.constructTree(arr, 0, arr.length - 1);
-console.log(tree);
+
+tree.insert(8);
+tree.insert(82);
+tree.insert(1);
+tree.insert(3);
+tree.insert(4);
+tree.insert(5);
 
 tree.prettyPrint(tree.root);
-
-tree.postOrder(tree.root);
