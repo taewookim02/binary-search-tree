@@ -77,6 +77,27 @@ export class Tree {
 
     return node;
   }
+
+  find(input) {
+    return this.findNode(this.root, input);
+  }
+
+  findNode(node, input) {
+    if (node === null) {
+      console.log("node is null, return");
+      return null;
+    }
+
+    if (input < node.data) {
+      return this.findNode(node.left, input);
+    } else if (input > node.data) {
+      return this.findNode(node.right, input);
+    } else if (input === node.data) {
+      console.log("found!");
+      console.log(node);
+      return node;
+    }
+  }
 }
 const arr = [235, 1, 2, 3, 4, 7, 9, 0, 234, 32, 18, 23];
 
@@ -93,4 +114,6 @@ tree.insert(3);
 tree.insert(4);
 tree.insert(5);
 
+const nodeFound = tree.find(5);
+console.log(nodeFound); // node
 tree.prettyPrint(tree.root);
